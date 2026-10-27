@@ -1,0 +1,110 @@
+--TASK CONSTRAINT
+--1.primary key 
+
+create table students (student_id int primary key,student_name varchar (50))
+
+select * from students
+
+insert into students values (101, 'arun')
+insert into students values (102,'vimal')
+
+create table student_course (student_id int,course_id int,
+primary key (student_id,course_id))
+
+select * from student_course
+
+--2.foreign key
+
+create table customer (customer_id int primary key,
+customer_name varchar(40))
+
+select * from customer
+
+create table orderss(order_id int primary key,
+customer_id int,foreign key (customer_id)
+references customer(customer_id))
+
+select * from orderss
+
+insert into orderss values (1,009)
+
+CREATE TABLE orders_cascade (
+    order_id INT PRIMARY KEY,
+    customer_id INT REFERENCES customers(customer_id)
+        ON DELETE CASCADE)
+
+select * from orders_cascade
+
+CREATE TABLE orders_setnull (
+    order_id INT PRIMARY KEY,
+    customer_id INT REFERENCES customers(customer_id)
+        ON DELETE SET NULL)
+
+select * from orders_setnull
+
+--3.unique
+
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50),
+    email VARCHAR(100) UNIQUE)
+
+select * from users
+
+INSERT INTO users VALUES
+(1, 'Arun', 'vimal@gmail.com')
+
+INSERT INTO users VALUES
+(2, 'Vimal', 'arun@gmail.com')
+
+CREATE TABLE users_multiple (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE,
+    email VARCHAR(100) UNIQUE)
+
+select * from users_multiple
+
+--4.not null
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL)
+
+select * from products
+
+INSERT INTO products (product_id)
+VALUES (101)
+
+INSERT INTO products VALUES (101, 'Laptop')
+
+--5.check
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(50),
+    salary NUMERIC(10,2) CHECK (salary > 0))
+
+select * from employees
+
+INSERT INTO employees
+VALUES (1, 'Arun', -5000)
+
+INSERT INTO employees
+VALUES (1, 'Arun', 25000)
+
+CREATE TABLE eligible_users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50),
+    age INT CHECK (age >= 18))
+
+--default
+
+CREATE TABLE accounts (
+    account_id INT PRIMARY KEY,
+    account_name VARCHAR(50),
+    status VARCHAR(20) DEFAULT 'ACTIVE')
+
+select * from accounts
+
+INSERT INTO accounts (account_id, account_name)
+VALUES (1, 'Arun')
