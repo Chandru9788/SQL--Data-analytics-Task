@@ -1,0 +1,317 @@
+--joins--------
+
+-- 1. Create student_data table
+CREATE TABLE student_data (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(100),
+    course_id INT)
+
+-- 2. Create course_data table
+CREATE TABLE course_data (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100))
+
+-- 3. Create institute table
+CREATE TABLE institute (
+    branch_id INT PRIMARY KEY,
+    branch_name VARCHAR(100))
+
+-- 4. Create course table
+CREATE TABLE course (
+    course_code INT PRIMARY KEY,
+    course_name VARCHAR(100))
+
+INSERT INTO student_data (student_id, student_name, course_id) VALUES
+(1, 'Kumar', 101),
+(2, 'Arun', 102),
+(3, 'Ravi', 103),
+(4, 'Priya', 104),
+(5, 'Divya', 105),
+(6, 'Karthik', 101),
+(7, 'Suresh', 106),
+(8, 'Meena', NULL),
+(9, 'Vijay', 110),
+(10, 'Kavitha', 102)
+
+INSERT INTO course_data (course_id, course_name) VALUES
+(101, 'Python'),
+(102, 'SQL'),
+(103, 'Power BI'),
+(104, 'Data Analytics'),
+(105, 'Java'),
+(106, 'React.js'),
+(107, 'HTML'),
+(108, 'CSS'),
+(109, 'JavaScript'),
+(111, 'Machine Learning')
+
+INSERT INTO institute (branch_id, branch_name) VALUES
+(1, 'Salem'),
+(2, 'Chennai'),
+(3, 'Coimbatore'),
+(4, 'Bangalore'),
+(5, 'Madurai'),
+(6, 'Trichy'),
+(7, 'Erode'),
+(8, 'Attur'),
+(9, 'Namakkal'),
+(10, 'Vellore')
+
+INSERT INTO course (course_code, course_name) VALUES
+(201, 'Python'),
+(202, 'SQL'),
+(203, 'Power BI'),
+(204, 'Data Analytics'),
+(205, 'Java'),
+(206, 'React.js'),
+(207, 'HTML'),
+(208, 'CSS'),
+(209, 'JavaScript'),
+(210, 'Machine Learning')
+
+select * from student_data
+
+select * from course_data
+
+select * from institute
+
+select * from course
+
+ --INNER JOIN Tasks
+
+ --1. Display all students with their enrolled course names.
+
+ SELECT s.student_name, c.course_name
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+
+--2.Find students who joined available courses only.
+
+SELECT s.*
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+
+--3.Show student ID, student name, and course name together.
+
+SELECT s.student_id, s.student_name, c.course_name
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+
+--4.Find which course Kumar joined.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.student_name = 'Kumar'
+
+--5.Display all students who joined React.js course.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+WHERE c.course_name = 'React.js'
+
+--6.Find students whose course_id matches in both tables
+
+SELECT s.*, c.course_name
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+
+--7. Display only matching records between students and courses.
+
+SELECT *
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+
+--8. Count how many students are enrolled in valid courses.
+
+SELECT COUNT(*) AS total_students
+FROM student_data s
+INNER JOIN course_data c
+ON s.course_id = c.course_id
+
+--LEFT JOIN Tasks
+
+--9. Display all students even if course details are missing.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+
+--10. Find students who did not get course allocation.
+
+SELECT s.*
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.course_id IS NULL
+
+--11. Display students whose course_name shows NULL.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE c.course_name IS NULL
+
+--12. Show all student names with their course names.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+
+--13. Find students whose course_id is not available in course_data.
+
+SELECT s.*
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE c.course_id IS NULL
+
+--14. Display unmatched student records.
+
+SELECT s.*
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE c.course_id IS NULL;
+
+--15. Show all records from student_data table using JOIN.
+
+SELECT s.*, c.course_name
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+
+-- RIGHT JOIN Tasks
+
+--16. Display all courses even if no students joined.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+RIGHT JOIN course_data c
+ON s.course_id = c.course_id
+
+--17. Find courses without students.
+
+SELECT c.course_id, c.course_name
+FROM student_data s
+RIGHT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.student_id IS NULL
+
+--18. Display NULL student names from RIGHT JOIN result.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+RIGHT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.student_name IS NULL
+
+--19. Show all available courses with student names.
+
+SELECT c.course_name, s.student_name
+FROM student_data s
+RIGHT JOIN course_data c
+ON s.course_id = c.course_id
+
+--20. Find which courses currently have no enrollments.
+
+SELECT c.course_name
+FROM student_data s
+RIGHT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.student_id IS NULL
+
+--21. Display unmatched course records.
+
+SELECT c.*
+FROM student_data s
+RIGHT JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.student_id IS NULL
+
+-- FULL JOIN Tasks
+
+--22. Display all students and all courses together.
+
+SELECT s.student_name, c.course_name
+FROM student_data s
+FULL OUTER JOIN course_data c
+ON s.course_id = c.course_id
+
+--23. Find unmatched students and unmatched courses together.
+
+SELECT s.*, c.*
+FROM student_data s
+FULL OUTER JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.student_id IS NULL
+   OR c.course_id IS NULL
+
+--24. Perform FULL JOIN using UNION query.
+
+SELECT s.student_id, s.student_name,
+       s.course_id, c.course_name
+FROM student_data s
+LEFT JOIN course_data c
+ON s.course_id = c.course_id
+
+UNION
+
+SELECT s.student_id, s.student_name,
+       c.course_id, c.course_name
+FROM student_data s
+RIGHT JOIN course_data c
+ON s.course_id = c.course_id
+
+--25. Display complete combined data from both tables.
+
+SELECT s.*, c.*
+FROM student_data s
+FULL OUTER JOIN course_data c
+ON s.course_id = c.course_id
+
+--26. Find all NULL values generated in FULL JOIN.
+
+SELECT s.*, c.*
+FROM student_data s
+FULL OUTER JOIN course_data c
+ON s.course_id = c.course_id
+WHERE s.student_id IS NULL
+   OR c.course_id IS NULL
+
+--CROSS JOIN Tasks
+
+--27. Display all possible combinations of institute branches and courses.
+
+SELECT i.branch_name, c.course_name
+FROM institute i
+CROSS JOIN course c
+
+--28. Show branch name with every course available.
+
+SELECT i.branch_name, c.course_name
+FROM institute i
+CROSS JOIN course c
+
+--29. Count total combinations generated using CROSS JOIN.
+
+SELECT COUNT(*) AS total_combinations
+FROM institute i
+CROSS JOIN course c
+
+--30. Display:* brand_id * branch_name * course_name using CROSS JOin
+
+SELECT i.branch_id, i.branch_name, c.course_name
+FROM institute i
+CROSS JOIN course c
